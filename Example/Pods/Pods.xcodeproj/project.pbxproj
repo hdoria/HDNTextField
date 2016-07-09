@@ -998,7 +998,7 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.hdoria.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Pods_HDNTextField_Example;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1032,7 +1032,7 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.hdoria.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Pods_HDNTextField_Example;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1065,7 +1065,7 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.hdoria.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Pods_HDNTextField_Tests;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1169,7 +1169,7 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.hdoria.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Pods_HDNTextField_Tests;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
