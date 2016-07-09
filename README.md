@@ -1,6 +1,6 @@
 # HDNTextField
 
-[![CI Status](http://img.shields.io/travis/Hugo Doria/HDNTextField.svg?style=flat)](https://travis-ci.org/Hugo Doria/HDNTextField)
+[![CI Status](http://img.shields.io/travis/hdoria/HDNTextField.svg?style=flat)](https://travis-ci.org/hdoria/HDNTextField)
 [![Version](https://img.shields.io/cocoapods/v/HDNTextField.svg?style=flat)](http://cocoapods.org/pods/HDNTextField)
 [![License](https://img.shields.io/cocoapods/l/HDNTextField.svg?style=flat)](http://cocoapods.org/pods/HDNTextField)
 [![Platform](https://img.shields.io/cocoapods/p/HDNTextField.svg?style=flat)](http://cocoapods.org/pods/HDNTextField)
@@ -22,7 +22,7 @@ pod "HDNTextField"
 
 ## Author
 
-Hugo Doria, hugo@popcode.com.br
+Hugo Doria, hugo@hdoria.me
 
 ## License
 

@@ -1,0 +1,22 @@
+PODS:
+  - HDNTextField (0.1.0)
+  - Nimble (3.2.0)
+  - Quick (0.9.2)
+
+DEPENDENCIES:
+  - HDNTextField (from `../`)
+  - Nimble (~> 3.0)
+  - Quick (~> 0.8)
+
+EXTERNAL SOURCES:
+  HDNTextField:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  HDNTextField: 30857aca2392fb23ca1b9af12a91ffa49db65eb9
+  Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
+  Quick: 18d057bc66451eedd5d1c8dc99ba2a5db6e60226
+
+PODFILE CHECKSUM: 717caef3609398152c33997173e8daf454e9c4c1
+
+COCOAPODS: 1.0.1

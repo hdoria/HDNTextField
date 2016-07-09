@@ -1,0 +1,6 @@
+framework module HDNTextField {
+  umbrella header "HDNTextField-umbrella.h"
+
+  export *
+  module * { export * }
+}
