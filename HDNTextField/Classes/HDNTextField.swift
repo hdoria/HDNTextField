@@ -159,6 +159,41 @@ import UIKit
         }
     }
 
+    // MARK: Colors when the textfield is inactive but have content
+    /**
+     The color of the border when the textfield is not active but have content.
+
+     This property applies a border to the textfield when it's inactive and have content inside.
+     The default value for this property is a clear color.
+     */
+    @IBInspectable dynamic public var notEmptyBorderInactiveColor: UIColor? {
+        didSet {
+            updateBorder()
+        }
+    }
+
+    /**
+     The color for the text when the textfield is inactive and have content inside.
+
+     This property applies a color to the text when the textfield is inactive and have content inside.
+     */
+    @IBInspectable dynamic public var notEmptyTextInactiveColor: UIColor? {
+        didSet {
+            updateTextColor()
+        }
+    }
+
+    /**
+     The color for the text when the textfield is inactive and have content inside.
+
+     This property applies a color to the text when the textfield is inactive and have content inside.
+     */
+    @IBInspectable dynamic public var notEmptyPlaceholderInactiveColor: UIColor? {
+        didSet {
+            updatePlaceholder()
+        }
+    }
+
     // MARK: Private vars
     private let borderLayer = CAShapeLayer()
 
@@ -228,11 +263,17 @@ import UIKit
     public func textFieldDidEndEditing() {
         updateBorder()
         updatePlaceholder()
-        textColor = textInactiveColor
+        updateTextColor()
     }
 
     // MARK: Helper Methods
     private func updateBorder() {
+        var inactiveBorderColor = borderInactiveColor
+
+        if let notEmptyBorderColor = notEmptyBorderInactiveColor where !text!.isEmpty {
+            inactiveBorderColor = notEmptyBorderColor
+        }
+
         let rect = self.bounds
         let corderRadii = CGSize(width: textFieldCornerRadius, height: textFieldCornerRadius)
         let corners = UIRectCorner.AllCorners
@@ -243,15 +284,21 @@ import UIKit
         borderLayer.path = path.CGPath
         borderLayer.lineWidth = 2
         borderLayer.fillColor = (self.editing ? textFieldActiveBackgroundColor.CGColor : textFieldInactiveBackgroundColor.CGColor)
-        borderLayer.strokeColor = (self.editing ? borderActiveColor.CGColor : borderInactiveColor.CGColor)
+        borderLayer.strokeColor = (self.editing ? borderActiveColor.CGColor : inactiveBorderColor.CGColor)
         borderLayer.lineCap = kCALineCapSquare
 
         layer.cornerRadius = textFieldCornerRadius
     }
 
     private func updatePlaceholder() {
+        var inactivePlaceholderColor = placeholderInactiveColor
+
+        if let notEmptyPlaceholderColor = notEmptyPlaceholderInactiveColor where !text!.isEmpty {
+            inactivePlaceholderColor = notEmptyPlaceholderColor
+        }
+
         placeholderLabel.text = placeholder
-        placeholderLabel.textColor = (self.editing ? placeholderActiveColor : placeholderInactiveColor)
+        placeholderLabel.textColor = (self.editing ? placeholderActiveColor : inactivePlaceholderColor)
         placeholderLabel.sizeToFit()
         placeholderLabel.backgroundColor = placeholderBackgroundColor
         placeholderLabel.textAlignment = .Right
@@ -259,7 +306,13 @@ import UIKit
     }
 
     private func updateTextColor() {
-        textColor = (self.editing ? textActiveColor : textInactiveColor)
+        var inactiveTextColor = textInactiveColor
+
+        if let notEmptyTextColor = notEmptyTextInactiveColor where !text!.isEmpty {
+            inactiveTextColor = notEmptyTextColor
+        }
+
+        textColor = (self.editing ? textActiveColor : inactiveTextColor)
     }
 
     private func layoutPlaceholderInTextRect() {
