@@ -56,7 +56,7 @@ textField.textFieldInactiveBackgroundColor = .clearColor()
 textField.textInactiveColor = .blackColor() 
 
 // The color for the text when the textfield is active.
-textField.textActiveColor: UIColor = .blackColor()
+textField.textActiveColor = .blackColor()
 
 // The corner radius for the textfield as a whole.
 textField.textFieldCornerRadius = 3.0
@@ -65,10 +65,10 @@ textField.textFieldCornerRadius = 3.0
 textField.textFieldInsets = CGPoint(x: 10, y: 0)
 
 // The color of the border when the textfield is not active.
-textField.borderInactiveColor = UIColor.lightGrayColor() 
+textField.borderInactiveColor = .lightGrayColor() 
 
 // The color of the border when it is active.
-textField.borderActiveColor: UIColor = UIColor.blueColor() 
+textField.borderActiveColor = .blueColor() 
 
 ```
 
