@@ -8,21 +8,21 @@
 
 import UIKit
 
-@IBDesignable public class HDNTextField: UITextField {
+@IBDesignable open class HDNTextField: UITextField {
 
     // MARK: Placeholder Properties
 
     /*
      UILabel that holds all the placeholder information
     */
-    public let placeholderLabel = UILabel()
+    open let placeholderLabel = UILabel()
 
     /**
      The insets for the placeholder.
 
      This property applies a padding to the placeholder. Ex: CGPoint(x: 10, y: 0).
      */
-    @IBInspectable dynamic public var placeholderInsets: CGPoint = CGPoint(x: 10, y: 0) {
+    @IBInspectable dynamic open var placeholderInsets: CGPoint = CGPoint(x: 10, y: 0) {
         didSet {
             updatePlaceholder()
         }
@@ -33,7 +33,7 @@ import UIKit
 
      This property applies a color for the placeholder when the Textfield is inactive.
      */
-    @IBInspectable dynamic public var placeholderInactiveColor: UIColor = .lightGrayColor() {
+    @IBInspectable dynamic open var placeholderInactiveColor: UIColor = .lightGray {
         didSet {
             updatePlaceholder()
         }
@@ -44,7 +44,7 @@ import UIKit
 
      This property applies a color for the placeholder when the Textfield is active.
      */
-    @IBInspectable dynamic public var placeholderActiveColor: UIColor = .blueColor() {
+    @IBInspectable dynamic open var placeholderActiveColor: UIColor = .blue {
         didSet {
             updatePlaceholder()
         }
@@ -55,7 +55,7 @@ import UIKit
 
      This property applies a background color to the placeholder.
      */
-    @IBInspectable dynamic public var placeholderBackgroundColor: UIColor = .clearColor() {
+    @IBInspectable dynamic open var placeholderBackgroundColor: UIColor = .clear {
         didSet {
             updatePlaceholder()
         }
@@ -64,7 +64,7 @@ import UIKit
     /*
      The placeholder text.
      */
-    override public var placeholder: String? {
+    override open var placeholder: String? {
         didSet {
             updatePlaceholder()
         }
@@ -77,7 +77,7 @@ import UIKit
 
      This property applies a background color to the textfield when it's active.
      */
-    @IBInspectable dynamic public var textFieldActiveBackgroundColor: UIColor = .clearColor() {
+    @IBInspectable dynamic open var textFieldActiveBackgroundColor: UIColor = .clear {
         didSet {
             updatePlaceholder()
         }
@@ -88,7 +88,7 @@ import UIKit
 
      This property applies a background color to the textfield when it's inactive.
      */
-    @IBInspectable dynamic public var textFieldInactiveBackgroundColor: UIColor = .clearColor() {
+    @IBInspectable dynamic open var textFieldInactiveBackgroundColor: UIColor = .clear {
         didSet {
             updatePlaceholder()
         }
@@ -101,7 +101,7 @@ import UIKit
 
      This property applies a color to the text when the textfield is inactive.
      */
-    @IBInspectable dynamic public var textInactiveColor: UIColor = .blackColor() {
+    @IBInspectable dynamic open var textInactiveColor: UIColor = .black {
         didSet {
             updateTextColor()
         }
@@ -112,7 +112,7 @@ import UIKit
 
      This property applies a color to the text when the textfield is active.
      */
-    @IBInspectable dynamic public var textActiveColor: UIColor = .blackColor() {
+    @IBInspectable dynamic open var textActiveColor: UIColor = .black {
         didSet {
             updateTextColor()
         }
@@ -123,14 +123,14 @@ import UIKit
 
      This property applies a rounded corner to the textfield.
      */
-    @IBInspectable dynamic public var textFieldCornerRadius: CGFloat = 3.0
+    @IBInspectable dynamic open var textFieldCornerRadius: CGFloat = 3.0
 
     /**
      This property defines the size of the editable area.
 
      This property defines the size of the editable area. Ex: CGPoint(x: 10, y: 0).
      */
-    @IBInspectable dynamic public var textFieldInsets: CGPoint = CGPoint(x: 10, y: 0)
+    @IBInspectable dynamic open var textFieldInsets: CGPoint = CGPoint(x: 10, y: 0)
 
     // MARK: Border Properties
 
@@ -140,7 +140,7 @@ import UIKit
      This property applies a border to the textfield when it's inactive.
      The default value for this property is a clear color.
      */
-    @IBInspectable dynamic public var borderInactiveColor: UIColor = UIColor.lightGrayColor() {
+    @IBInspectable dynamic open var borderInactiveColor: UIColor = UIColor.lightGray {
         didSet {
             updateBorder()
             updatePlaceholder()
@@ -152,7 +152,7 @@ import UIKit
 
      This property applies a border to the textfield when it's active (editing mode).
      */
-    @IBInspectable dynamic public var borderActiveColor: UIColor = UIColor.blueColor() {
+    @IBInspectable dynamic open var borderActiveColor: UIColor = UIColor.blue {
         didSet {
             updateBorder()
             updatePlaceholder()
@@ -166,7 +166,7 @@ import UIKit
      This property applies a border to the textfield when it's inactive and have content inside.
      The default value for this property is a clear color.
      */
-    @IBInspectable dynamic public var notEmptyBorderInactiveColor: UIColor? {
+    @IBInspectable dynamic open var notEmptyBorderInactiveColor: UIColor? {
         didSet {
             updateBorder()
         }
@@ -177,7 +177,7 @@ import UIKit
 
      This property applies a color to the text when the textfield is inactive and have content inside.
      */
-    @IBInspectable dynamic public var notEmptyTextInactiveColor: UIColor? {
+    @IBInspectable dynamic open var notEmptyTextInactiveColor: UIColor? {
         didSet {
             updateTextColor()
         }
@@ -188,61 +188,61 @@ import UIKit
 
      This property applies a color to the text when the textfield is inactive and have content inside.
      */
-    @IBInspectable dynamic public var notEmptyPlaceholderInactiveColor: UIColor? {
+    @IBInspectable dynamic open var notEmptyPlaceholderInactiveColor: UIColor? {
         didSet {
             updatePlaceholder()
         }
     }
 
     // MARK: Private vars
-    private let borderLayer = CAShapeLayer()
+    fileprivate let borderLayer = CAShapeLayer()
 
     // MARK: Overrides
-    override public var bounds: CGRect {
+    override open var bounds: CGRect {
         didSet {
             updateBorder()
             updatePlaceholder()
         }
     }
 
-    override public func drawRect(rect: CGRect) {
-        textAlignment = .Right
+    override open func draw(_ rect: CGRect) {
+        textAlignment = .right
 
         layer.addSublayer(borderLayer)
         addSubview(placeholderLabel)
     }
 
-    override public func willMoveToSuperview(newSuperview: UIView?) {
-        let nc = NSNotificationCenter.defaultCenter()
+    override open func willMove(toSuperview newSuperview: UIView?) {
+        let nc = NotificationCenter.default
         if newSuperview != nil {
             nc.addObserver(self,
                            selector: #selector(textFieldDidBeginEditing),
-                           name: UITextFieldTextDidBeginEditingNotification,
+                           name: NSNotification.Name.UITextFieldTextDidBeginEditing,
                            object: self)
             nc.addObserver(self,
                            selector: #selector(textFieldDidEndEditing),
-                           name: UITextFieldTextDidEndEditingNotification,
+                           name: NSNotification.Name.UITextFieldTextDidEndEditing,
                            object: self)
         } else {
             nc.removeObserver(self)
         }
     }
 
-    override public func drawPlaceholderInRect(rect: CGRect) {
+    override open func drawPlaceholder(in rect: CGRect) {
         // Override so the default placeholder does not appear
     }
 
     // MARK: Interface Build
-    override public func prepareForInterfaceBuilder() {
+    override open func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         drawViewsForRect(frame)
     }
 
-    override public func editingRectForBounds(bounds: CGRect) -> CGRect {
+    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
         return getRectForText(bounds)
     }
 
-    override public func textRectForBounds(bounds: CGRect) -> CGRect {
+    override open func textRect(forBounds bounds: CGRect) -> CGRect {
         return getRectForText(bounds)
     }
 
@@ -251,7 +251,7 @@ import UIKit
     /**
      The textfield has started an editing session.
      */
-    public func textFieldDidBeginEditing() {
+    open func textFieldDidBeginEditing() {
         updateBorder()
         updatePlaceholder()
         textColor = textActiveColor
@@ -260,65 +260,65 @@ import UIKit
     /**
      The textfield has ended an editing session.
      */
-    public func textFieldDidEndEditing() {
+    open func textFieldDidEndEditing() {
         updateBorder()
         updatePlaceholder()
         updateTextColor()
     }
 
     // MARK: Helper Methods
-    private func updateBorder() {
+    fileprivate func updateBorder() {
         var inactiveBorderColor = borderInactiveColor
 
-        if let notEmptyBorderColor = notEmptyBorderInactiveColor where !text!.isEmpty {
+        if let notEmptyBorderColor = notEmptyBorderInactiveColor , !text!.isEmpty {
             inactiveBorderColor = notEmptyBorderColor
         }
 
         let rect = self.bounds
         let corderRadii = CGSize(width: textFieldCornerRadius, height: textFieldCornerRadius)
-        let corners = UIRectCorner.AllCorners
+        let corners = UIRectCorner.allCorners
         let path = UIBezierPath(roundedRect: rect,
                                 byRoundingCorners: corners,
                                 cornerRadii: corderRadii)
 
-        borderLayer.path = path.CGPath
+        borderLayer.path = path.cgPath
         borderLayer.lineWidth = 2
-        borderLayer.fillColor = (self.editing ? textFieldActiveBackgroundColor.CGColor : textFieldInactiveBackgroundColor.CGColor)
-        borderLayer.strokeColor = (self.editing ? borderActiveColor.CGColor : inactiveBorderColor.CGColor)
+        borderLayer.fillColor = (self.isEditing ? textFieldActiveBackgroundColor.cgColor : textFieldInactiveBackgroundColor.cgColor)
+        borderLayer.strokeColor = (self.isEditing ? borderActiveColor.cgColor : inactiveBorderColor.cgColor)
         borderLayer.lineCap = kCALineCapSquare
 
         layer.cornerRadius = textFieldCornerRadius
     }
 
-    private func updatePlaceholder() {
+    fileprivate func updatePlaceholder() {
         var inactivePlaceholderColor = placeholderInactiveColor
 
-        if let notEmptyPlaceholderColor = notEmptyPlaceholderInactiveColor where !text!.isEmpty {
+        if let notEmptyPlaceholderColor = notEmptyPlaceholderInactiveColor , !text!.isEmpty {
             inactivePlaceholderColor = notEmptyPlaceholderColor
         }
 
         placeholderLabel.text = placeholder
-        placeholderLabel.textColor = (self.editing ? placeholderActiveColor : inactivePlaceholderColor)
+        placeholderLabel.textColor = (self.isEditing ? placeholderActiveColor : inactivePlaceholderColor)
         placeholderLabel.sizeToFit()
         placeholderLabel.backgroundColor = placeholderBackgroundColor
-        placeholderLabel.textAlignment = .Right
+        placeholderLabel.textAlignment = .right
         layoutPlaceholderInTextRect()
     }
 
-    private func updateTextColor() {
+    fileprivate func updateTextColor() {
         var inactiveTextColor = textInactiveColor
 
-        if let notEmptyTextColor = notEmptyTextInactiveColor where !text!.isEmpty {
+        if let notEmptyTextColor = notEmptyTextInactiveColor , !text!.isEmpty {
             inactiveTextColor = notEmptyTextColor
         }
 
-        textColor = (self.editing ? textActiveColor : inactiveTextColor)
+        textColor = (self.isEditing ? textActiveColor : inactiveTextColor)
     }
 
-    private func layoutPlaceholderInTextRect() {
+    fileprivate func layoutPlaceholderInTextRect() {
 
-        let center = CGPoint(x: CGRectGetMidX(self.bounds),
-                             y: CGRectGetMidY(self.bounds) + placeholderInsets.y)
+        let center = CGPoint(x: self.bounds.midX,
+                             y: self.bounds.midY + placeholderInsets.y)
         placeholderLabel.center = center
         placeholderLabel.frame = CGRect(x: placeholderInsets.x,
                                         y: placeholderLabel.frame.origin.y,
@@ -327,7 +327,7 @@ import UIKit
 
     }
 
-    private func getRectForText(bounds: CGRect) -> CGRect {
+    fileprivate func getRectForText(_ bounds: CGRect) -> CGRect {
         let placeHolderEndPosition = placeholderLabel.frame.origin.x + placeholderLabel.frame.size.width
         let editingWidth = bounds.size.width - (placeHolderEndPosition + textFieldInsets.x + 10)
         let origin = CGPoint(x: placeHolderEndPosition + textFieldInsets.x, y: 0)
@@ -336,7 +336,7 @@ import UIKit
     }
 
     // MARK: - Interface Builder
-    public func drawViewsForRect(rect: CGRect) {
+    open func drawViewsForRect(_ rect: CGRect) {
         updateBorder()
         updatePlaceholder()
 

@@ -42,6 +42,7 @@ expect(ocean.isClean).toEventually(beTruthy())
   - [Strings](#strings)
   - [Checking if all elements of a collection pass a condition](#checking-if-all-elements-of-a-collection-pass-a-condition)
   - [Verify collection count](#verify-collection-count)
+  - [Verify a notification was posted](#verifying-a-notification-was-posted)
   - [Matching a value to any of a group of matchers](#matching-a-value-to-any-of-a-group-of-matchers)
 - [Writing Your Own Matchers](#writing-your-own-matchers)
   - [Lazy Evaluation](#lazy-evaluation)
@@ -327,6 +328,9 @@ cases, use the `timeout` parameter:
 
 // Waits three seconds for ocean to contain "starfish":
 expect(ocean).toEventually(contain("starfish"), timeout: 3)
+
+// Evaluate someValue every 0.2 seconds repeatedly until it equals 100, or fails if it timeouts after 5.5 seconds.
+expect(someValue).toEventually(equal(100), timeout: 5.5, pollInterval: 0.2)
 ```
 
 ```objc
@@ -405,7 +409,8 @@ Nimble has full support for Objective-C. However, there are two things
 to keep in mind when using Nimble in Objective-C:
 
 1. All parameters passed to the `expect` function, as well as matcher
-   functions like `equal`, must be Objective-C objects:
+   functions like `equal`, must be Objective-C objects or can be converted into
+   an `NSObject` equivalent:
 
    ```objc
    // Objective-C
@@ -414,6 +419,17 @@ to keep in mind when using Nimble in Objective-C:
 
    expect(@(1 + 1)).to(equal(@2));
    expect(@"Hello world").to(contain(@"world"));
+
+   // Boxed as NSNumber *
+   expect(2).to(equal(2));
+   expect(1.2).to(beLessThan(2.0));
+   expect(true).to(beTruthy());
+
+   // Boxed as NSString *
+   expect("Hello world").to(equal("Hello world"));
+
+   // Boxed as NSRange
+   expect(NSMakeRange(1, 10)).to(equal(NSMakeRange(1, 10)));
    ```
 
 2. To make an expectation on an expression that does not return a value,
@@ -425,6 +441,28 @@ to keep in mind when using Nimble in Objective-C:
 
    expectAction(^{ [exception raise]; }).to(raiseException());
    ```
+
+The following types are currently converted to an `NSObject` type:
+
+ - **C Numeric types** are converted to `NSNumber *`
+ - `NSRange` is converted to `NSValue *`
+ - `char *` is converted to `NSString *`
+
+For the following matchers:
+
+- `equal`
+- `beGreaterThan`
+- `beGreaterThanOrEqual`
+- `beLessThan`
+- `beLessThanOrEqual`
+- `beCloseTo`
+- `beTrue`
+- `beFalse`
+- `beTruthy`
+- `beFalsy`
+- `haveCount`
+
+If you would like to see more, [file an issue](https://github.com/Quick/Nimble/issues).
 
 ## Disabling Objective-C Shorthand
 
@@ -1224,7 +1262,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'YOUR_APP_NAME_HERE_Tests', :exclusive => true do
   use_frameworks!
-  pod 'Nimble', '~> 4.0.0'
+  pod 'Nimble', '~> 5.0.0'
 end
 ```
 

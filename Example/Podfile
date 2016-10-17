@@ -6,7 +6,7 @@ target 'HDNTextField_Example' do
   target 'HDNTextField_Tests' do
     inherit! :search_paths
 
-    pod 'Quick', :git => 'git@github.com:Quick/Quick.git', :commit => 'e72d6dc'
-    pod 'Nimble', :git => 'git@github.com:Quick/Nimble.git', :commit => '0209419'
+    pod 'Quick', :git => 'git@github.com:Quick/Quick.git'
+    pod 'Nimble', :git => 'git@github.com:Quick/Nimble.git'
   end
 end
