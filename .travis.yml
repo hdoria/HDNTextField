@@ -4,10 +4,6 @@
 
 osx_image: xcode8.2
 language: objective-c
-env:
-  global:
-    - IOS_SDK="iphonesimulator10.2"
-    - IOS10_DESTINATION="platform=iOS Simulator,name=iPhone 7,OS=10.2"
 
 # cache: cocoapods
 # podfile: Example/Podfile
@@ -15,5 +11,5 @@ env:
 # - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
-- set -o pipefail && xcodebuild test -workspace Example/HDNTextField.xcworkspace -scheme HDNTextField-Example -sdk "$IOS_SDK" -destination "$IOS10_DESTINATION" ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -workspace Example/HDNTextField.xcworkspace -scheme HDNTextField-Example -destination "platform=iOS Simulator,name=iPhone 7,OS=10.2" ONLY_ACTIVE_ARCH=NO | xcpretty
 - pod lib lint
