@@ -23,7 +23,7 @@ expect(ocean.isClean).toEventually(beTruthy())
 - [Some Background: Expressing Outcomes Using Assertions in XCTest](#some-background-expressing-outcomes-using-assertions-in-xctest)
 - [Nimble: Expectations Using `expect(...).to`](#nimble-expectations-using-expectto)
   - [Custom Failure Messages](#custom-failure-messages)
-  - [Type Checking](#type-checking)
+  - [Type Safety](#type-safety)
   - [Operator Overloads](#operator-overloads)
   - [Lazily Computed Values](#lazily-computed-values)
   - [C Primitives](#c-primitives)
@@ -31,11 +31,13 @@ expect(ocean.isClean).toEventually(beTruthy())
   - [Objective-C Support](#objective-c-support)
   - [Disabling Objective-C Shorthand](#disabling-objective-c-shorthand)
 - [Built-in Matcher Functions](#built-in-matcher-functions)
+  - [Type Checking](#type-checking)
   - [Equivalence](#equivalence)
   - [Identity](#identity)
   - [Comparisons](#comparisons)
   - [Types/Classes](#typesclasses)
   - [Truthiness](#truthiness)
+  - [Swift Assertions](#swift-assertions)
   - [Swift Error Handling](#swift-error-handling)
   - [Exceptions](#exceptions)
   - [Collection Membership](#collection-membership)
@@ -163,7 +165,7 @@ expect(@(1+1)).toWithDescription(equal(@3), @"Make sure libKindergartenMath is l
 // expected to equal <3.0000>, got <2.0000>
 ```
 
-## Type Checking
+## Type Safety
 
 Nimble makes sure you don't compare two types that don't match:
 
@@ -488,6 +490,67 @@ NMB_expect(^{ return seagull.squawk; }, __FILE__, __LINE__).to(NMB_equal(@"Squee
 
 Nimble includes a wide variety of matcher functions.
 
+## Type Checking
+
+Nimble supports checking the type membership of any kind of object, whether
+Objective-C conformant or not:
+
+```swift
+// Swift 
+
+protocol SomeProtocol{}
+class SomeClassConformingToProtocol: SomeProtocol{}
+struct SomeStructConformingToProtocol: SomeProtocol{}
+
+// The following tests pass
+expect(1).to(beKindOf(Int.self))
+expect("turtle").to(beKindOf(String.self))
+
+let classObject = SomeClassConformingToProtocol()
+expect(classObject).to(beKindOf(SomeProtocol.self))
+expect(classObject).to(beKindOf(SomeClassConformingToProtocol.self))
+expect(classObject).toNot(beKindOf(SomeStructConformingToProtocol.self))
+
+let structObject = SomeStructConformingToProtocol()
+expect(structObject).to(beKindOf(SomeProtocol.self))
+expect(structObject).to(beKindOf(SomeStructConformingToProtocol.self))
+expect(structObject).toNot(beKindOf(SomeClassConformingToProtocol.self))
+```
+
+```objc
+// Objective-C
+
+// The following tests pass
+NSMutableArray *array = [NSMutableArray array];
+expect(array).to(beAKindOf([NSArray class]));
+expect(@1).toNot(beAKindOf([NSNull class]));
+```
+
+Objects can be tested for their exact types using the `beAnInstanceOf` matcher:
+```swift
+// Swift 
+
+protocol SomeProtocol{}
+class SomeClassConformingToProtocol: SomeProtocol{}
+struct SomeStructConformingToProtocol: SomeProtocol{}
+
+// Unlike the 'beKindOf' matcher, the 'beAnInstanceOf' matcher only 
+// passes if the object is the EXACT type requested. The following
+// tests pass -- note its behavior when working in an inheritance hierarchy. 
+expect(1).to(beAnInstanceOf(Int.self))
+expect("turtle").to(beAnInstanceOf(String.self))
+
+let classObject = SomeClassConformingToProtocol()
+expect(classObject).toNot(beAnInstanceOf(SomeProtocol.self))
+expect(classObject).to(beAnInstanceOf(SomeClassConformingToProtocol.self))
+expect(classObject).toNot(beAnInstanceOf(SomeStructConformingToProtocol.self))
+
+let structObject = SomeStructConformingToProtocol()
+expect(structObject).toNot(beAnInstanceOf(SomeProtocol.self))
+expect(structObject).to(beAnInstanceOf(SomeStructConformingToProtocol.self))
+expect(structObject).toNot(beAnInstanceOf(SomeClassConformingToProtocol.self))
+````
+
 ## Equivalence
 
 ```swift
@@ -718,6 +781,39 @@ expect(actual).to(beFalse());
 expect(actual).to(beNil());
 ```
 
+## Swift Assertions
+
+If you're using Swift, you can use the `throwAssertion` matcher to check if an assertion is thrown (e.g. `fatalError()`). This is made possible by [@mattgallagher](https://github.com/mattgallagher)'s [CwlPreconditionTesting](https://github.com/mattgallagher/CwlPreconditionTesting) library.
+
+```swift
+// Swift
+
+// Passes if somethingThatThrows() throws an assertion, such as calling fatalError() or precondition fails:
+expect { () -> Void in fatalError() }.to(throwAssertion())
+expect { precondition(false) }.to(throwAssertion())
+
+// Passes if throwing a NSError is not equal to throwing an assertion:
+expect { throw NSError(domain: "test", code: 0, userInfo: nil) }.toNot(throwAssertion())
+
+// Passes if the post assertion code is not run:
+var reachedPoint1 = false
+var reachedPoint2 = false
+expect {
+    reachedPoint1 = true
+    precondition(false, "condition message")
+    reachedPoint2 = true
+}.to(throwAssertion())
+
+expect(reachedPoint1) == true
+expect(reachedPoint2) == false
+```
+
+Notes:
+
+* This feature is only available in Swift.
+* It is only supported for `x86_64` binaries, meaning _you cannot run this matcher on iOS devices, only simulators_.
+* The tvOS simulator is supported, but using a different mechanism, requiring you to turn off the `Debug executable` scheme setting for your tvOS scheme's Test configuration.
+
 ## Swift Error Handling
 
 If you're using Swift 2.0+, you can use the `throwError` matcher to check if an error is thrown.
@@ -877,6 +973,47 @@ expect(actual).to(endWith(expected));
   Like `contain`, in Objective-C `beginWith` and `endWith` only support
   a single argument [for now](https://github.com/Quick/Nimble/issues/27).
 
+For code that returns collections of complex objects without a strict
+ordering, there is the `containElementSatisfying` matcher:
+
+```swift
+struct Turtle {
+	var color: String!
+}
+
+var turtles = functionThatReturnsSomeTurtlesInAnyOrder()
+
+// This set of matchers passes whether the array is [{color: "blue"}, {color: "green"}]
+// or [{color: "green"}, {color: "blue"}]
+expect(turtles).to(containElementSatisfying({ turtle in
+	return turtle.color == "green"
+}))
+expect(turtles).to(containElementSatisfying({ turtle in
+	return turtle.color == "blue"
+}, "that is a turtle with color 'blue'"))
+
+// The second matcher will incorporate the provided string in the error message
+// should it fail
+```
+
+```objc
+@interface Turtle: NSObject
+@property(nonatomic) NSString *color;
+@end
+@implementation Turtle @end
+
+NSArray *turtles = functionThatReturnsSomeTurtlesInAnyOrder();
+
+// This set of matchers passes whether the array is [{color: "blue"}, {color: "green"}]
+// or [{color: "green"}, {color: "blue"}]
+expect(turtles).to(containElementSatisfying(^BOOL(id object) {
+	return [turtle.color isEqualToString:@"green"];
+}));
+expect(turtles).to(containElementSatisfying(^BOOL(id object) {
+	return [turtle.color isEqualToString:@"blue"];
+}));
+```
+
 ## Strings
 
 ```swift
@@ -1013,10 +1150,10 @@ expect(actual).to(satisfyAnyOf(beLessThan(@10), beGreaterThan(@20)))
 expect(@6).to(satisfyAnyOf(equal(@2), equal(@3), equal(@4), equal(@5), equal(@6), equal(@7)))
 ```
 
-Note: This matcher allows you to chain any number of matchers together. This provides flexibility, 
-      but if you find yourself chaining many matchers together in one test, consider whether you  
-      could instead refactor that single test into multiple, more precisely focused tests for 
-      better coverage. 
+Note: This matcher allows you to chain any number of matchers together. This provides flexibility,
+      but if you find yourself chaining many matchers together in one test, consider whether you
+      could instead refactor that single test into multiple, more precisely focused tests for
+      better coverage.
 
 # Writing Your Own Matchers
 
@@ -1227,7 +1364,7 @@ extension NMBObjCMatcher {
 > Nimble can be used on its own, or in conjunction with its sister
   project, [Quick](https://github.com/Quick/Quick). To install both
   Quick and Nimble, follow [the installation instructions in the Quick
-  README](https://github.com/Quick/Quick#how-to-install-quick).
+  Documentation](https://github.com/Quick/Quick/blob/master/Documentation/en-us/InstallingQuick.md).
 
 Nimble can currently be installed in one of two ways: using CocoaPods, or with
 git submodules.

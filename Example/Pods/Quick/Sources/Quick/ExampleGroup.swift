@@ -8,14 +8,14 @@ import Foundation
 final public class ExampleGroup: NSObject {
     weak internal var parent: ExampleGroup?
     internal let hooks = ExampleHooks()
-    
+
     internal var phase: HooksPhase = .nothingExecuted
 
-    fileprivate let internalDescription: String
-    fileprivate let flags: FilterFlags
-    fileprivate let isInternalRootExampleGroup: Bool
-    fileprivate var childGroups = [ExampleGroup]()
-    fileprivate var childExamples = [Example]()
+    private let internalDescription: String
+    private let flags: FilterFlags
+    private let isInternalRootExampleGroup: Bool
+    private var childGroups = [ExampleGroup]()
+    private var childExamples = [Example]()
 
     internal init(description: String, flags: FilterFlags, isInternalRootExampleGroup: Bool = false) {
         self.internalDescription = description
@@ -93,7 +93,7 @@ final public class ExampleGroup: NSObject {
         childExamples.append(example)
     }
 
-    fileprivate func walkUp(_ callback: (_ group: ExampleGroup) -> ()) {
+    private func walkUp(_ callback: (_ group: ExampleGroup) -> ()) {
         var group = self
         while let parent = group.parent {
             callback(parent)

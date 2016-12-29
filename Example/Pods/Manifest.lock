@@ -1,7 +1,7 @@
 PODS:
   - HDNTextField (0.1.0)
-  - Nimble (5.0.0)
-  - Quick (0.10.0)
+  - Nimble (5.1.1)
+  - Quick (1.0.0)
 
 DEPENDENCIES:
   - HDNTextField (from `../`)
@@ -18,17 +18,17 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Nimble:
-    :commit: ffad092cbfdc83d4e8bc76df9a62d80d1e3c3fb4
+    :commit: 0d611f698c6f954df52b4bdf7ca7337fc2da47df
     :git: git@github.com:Quick/Nimble.git
   Quick:
-    :commit: 799d0871ebc8b31beaaacbb123b3c9cf304d4ce2
+    :commit: 5b6961054611dac4d42e22ec09b353cfee5835b4
     :git: git@github.com:Quick/Quick.git
 
 SPEC CHECKSUMS:
   HDNTextField: 30857aca2392fb23ca1b9af12a91ffa49db65eb9
-  Nimble: 56fc9f5020effa2206de22c3dd910f4fb011b92f
-  Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
+  Nimble: 5a51a91865b6f7ce1849fbe18ff13148046c585e
+  Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
 
 PODFILE CHECKSUM: 6a982f62a35ad15441430aaeef711687184aa818
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1
