@@ -11,5 +11,5 @@ language: objective-c
 # - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
-- set -o pipefail && xcodebuild test -workspace Example/HDNTextField.xcworkspace -scheme HDNTextField-Example -destination "platform=iOS Simulator,name=iPhone 7,OS=10.2" ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -workspace Example/HDNTextField.xcworkspace -scheme HDNTextField-Example -destination "platform:iOS Simulator, id:E40727B3-41FB-4D6E-B4CB-BFA87109EB12, OS:10.2, name:iPhone 7" ONLY_ACTIVE_ARCH=NO | xcpretty
 - pod lib lint
