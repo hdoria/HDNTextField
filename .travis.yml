@@ -5,11 +5,27 @@
 osx_image: xcode8.2
 language: objective-c
 
+env:
+  - DESTINATION='platform=iOS Simulator,name=iPad Air'
+  - DESTINATION='platform=iOS Simulator,name=iPad Air 2'
+  - DESTINATION='platform=iOS Simulator,name=iPad Pro (9.7 inch)'
+  - DESTINATION='platform=iOS Simulator,name=iPad Pro (12.9 inch)'
+  - DESTINATION='platform=iOS Simulator,name=iPad Retina'
+  - DESTINATION='platform=iOS Simulator,name=iPhone 5'
+  - DESTINATION='platform=iOS Simulator,name=iPhone 5s'
+  - DESTINATION='platform=iOS Simulator,name=iPhone 6'
+  - DESTINATION='platform=iOS Simulator,name=iPhone 6 Plus'
+  - DESTINATION='platform=iOS Simulator,name=iPhone 6s'
+  - DESTINATION='platform=iOS Simulator,name=iPhone 6s Plus'
+  - DESTINATION='platform=iOS Simulator,name=iPhone SE'
+  - DESTINATION='platform=iOS Simulator,name=iPhone 7'
+  - DESTINATION='platform=iOS Simulator,name=iPhone 7 Plus'
+
 # cache: cocoapods
 # podfile: Example/Podfile
 # before_install:
 # - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
-- set -o pipefail && xcodebuild test -workspace Example/HDNTextField.xcworkspace -scheme HDNTextField-Example -destination "platform=iOS Simulator, id=E40727B3-41FB-4D6E-B4CB-BFA87109EB12, OS=10.2, name=iPhone 7" ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -workspace Example/HDNTextField.xcworkspace -scheme HDNTextField-Example -destination "$DESTINATION" ONLY_ACTIVE_ARCH=NO | xcpretty
 - pod lib lint
